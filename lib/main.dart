@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import 'screens/auth/auth.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,14 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Scaffold(
-        body: Text('Flutter Demo Home Page'),
-      )
+    return const GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Auth(),
     );
   }
 }
