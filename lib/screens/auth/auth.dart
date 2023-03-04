@@ -21,13 +21,13 @@ class Auth extends StatelessWidget {
               Button(
                 labelText: 'Login', 
                 handler: (){
-                  Get.to(const Login());
+                  Get.to(()=>const Login());
                 }
               ),
               Button(
                 labelText: 'Register', 
                 handler: (){
-                  Get.to(const Register());
+                  Get.to(()=>const Register());
                 }
               ),
             ],
