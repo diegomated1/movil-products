@@ -5,6 +5,7 @@ class Input extends StatelessWidget {
     super.key,
     this.type = TextInputType.text,
     this.padding = 10.0,
+    this.hidden = false,
     required this.labelText,
     required this.handler,
   });
@@ -12,6 +13,7 @@ class Input extends StatelessWidget {
   final TextInputType type;
   final String labelText;
   final double padding;
+  final bool hidden;
   final Function(String labelText, String newValue) handler;
 
   @override
@@ -33,11 +35,8 @@ class Input extends StatelessWidget {
         decoration: InputDecoration(
           labelText: labelText,
           border: const OutlineInputBorder(),
-          errorStyle: const TextStyle(
-            height: 0.0,
-            fontSize: 0.0
-          ),
-        )
+        ),
+        obscureText: hidden,
       ),
     );
   } 
