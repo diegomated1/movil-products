@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:products/models/favoritesModel.dart';
 import 'package:products/models/productModel.dart';
 import 'package:products/screens/products/productListExtended.dart';
 import 'package:products/screens/products/productListSimple.dart';
@@ -14,14 +15,32 @@ class ProductsPage extends StatefulWidget{
 }
 
 class _ProductsPage extends State<ProductsPage> {
-  late Future<ProductsModel?> products;
+  late Future<ProductsModel> products;
+  late Future<FavoritesModel> favorites;  
+  int displayType = 0;
+
+  changeDisplayType(){
+    setState(() {
+      if(displayType==1){
+        displayType = 0;
+      }else{
+        displayType = 1;
+      }
+    });
+  }
+
+  hangleGetProducts(){
+    print("aaaaa");
+    setState(() {
+      products = ProductApi().getAll();
+      favorites = ProductApi().getFavorites();
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      products = ProductApi().getAll();
-    });
+    hangleGetProducts();
   }
 
   @override
@@ -32,19 +51,53 @@ class _ProductsPage extends State<ProductsPage> {
       ),
       body: Container(
         padding: const EdgeInsets.all(20.0),
-        child: FutureBuilder(
-          future: products,
-          builder: (context, snapshot) {
-            if(snapshot.hasData){
-              return ProductListExtended(products: snapshot.data!.products);
-            }else{
-              return const Center(
-                child: FittedBox(
-                  child: Text('No data'),
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 60,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: changeDisplayType,
+                  icon: const Icon(
+                    Icons.swap_horiz_outlined,
+                    size: 60,
+                    color: Colors.black,
+                  ),
                 ),
-              );
-            }
-          },
+              )
+            ),
+            Expanded(
+              child: FutureBuilder(
+                future: Future.wait([products, favorites]),
+                builder: (context, snapshot) {
+                  if(snapshot.hasData){
+                    if(displayType==0){
+                      return ProductListSimple(
+                        products: (snapshot.data![0] as ProductsModel).products,
+                        favorites: (snapshot.data![1] as FavoritesModel).favorites,
+                        refresh: hangleGetProducts,
+                      );
+                    }else{
+                      return ProductListExtended(
+                        products: (snapshot.data![0] as ProductsModel).products,
+                        favorites: (snapshot.data![1] as FavoritesModel).favorites,
+                        refresh: hangleGetProducts,
+                      );
+                    }
+                  }else{
+                    return const Center(
+                      child: FittedBox(
+                        child: Text('No data'),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
+          ]
         ),
       ),
     );
