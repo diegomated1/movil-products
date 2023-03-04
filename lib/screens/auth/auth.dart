@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:products/providers/userProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:products/screens/login/login.dart';
 import 'package:products/screens/register/register.dart';
@@ -10,6 +12,9 @@ class Auth extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var usr = context.watch<UserProvider>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Auth'),
