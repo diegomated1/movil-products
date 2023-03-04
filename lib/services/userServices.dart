@@ -1,12 +1,33 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:products/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserApi {
   String url = 'http://192.168.0.11:3000';
 
-  Future auth() async {
-    
+  Future<UserModel?> auth() async {
+    try{
+      final prefs = await SharedPreferences.getInstance();
+      var userToken = prefs.getString('userToken');
+      if(userToken==null){
+        return null;
+      }
+      var headers = {
+        "Content-type": "application/json",
+        "Authorization": "Bearer $userToken"
+      };
+
+      var response = await http.post(Uri.parse('$url/user/auth'), headers: headers);
+      if(response.statusCode == 200){
+        return UserModel.fromJson(json.decode(response.body)['user']);
+      } else {
+        return null;
+      }
+    }catch(e){
+      print(e.toString());
+      return null;
+    }
   }
 
   Future<Map<String, dynamic>> login({required Map<String, String> userInfo,}) async {
