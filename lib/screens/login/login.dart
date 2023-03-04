@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:products/screens/products/productsPage.dart';
+import 'package:products/services/userServices.dart';
+import 'package:get/get.dart';
 
 import '../../widgets/button.dart';
 import '../../widgets/input.dart';
@@ -23,10 +26,22 @@ class _Login extends State<Login> {
 
   var loginForm = GlobalKey<FormState>();
 
-  submit()async{
+  submit(BuildContext context)async{
     if(loginForm.currentState!.validate()){
       loginForm.currentState!.save();
-      print(userInfo.toString());
+      var logged = await UserApi().login(userInfo: userInfo);
+      if(logged['error']==0){
+        Get.to(()=>const ProductsPage());
+      }else{
+        if(mounted){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(logged['message']),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -44,7 +59,9 @@ class _Login extends State<Login> {
               children: [
                 Input(labelText: 'Email', handler: change),
                 Input(labelText: 'Password', handler: change, hidden: true,),
-                Button(labelText: 'Login', handler: submit,),
+                Button(labelText: 'Login', handler: (){
+                  submit(context);
+                },),
               ],
             ),
           ),
