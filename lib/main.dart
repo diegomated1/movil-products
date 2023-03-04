@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:products/providers/userProvider.dart';
+import 'package:products/screens/favorites/favoriteProducts.dart';
 import 'package:products/screens/login/login.dart';
 import 'package:products/screens/products/productsPage.dart';
+import 'package:products/screens/profile/profile.dart';
 import 'package:products/screens/register/register.dart';
 import 'package:provider/provider.dart';
 import 'screens/auth/auth.dart';
@@ -27,20 +29,22 @@ class MyApp extends StatelessWidget {
         initialRoute: '/auth',
         getPages: [
           GetPage(
-            name: '/',
-            page: () => const Auth()
+            name: '/', page: () => const Auth()
           ),
           GetPage(
-            name: '/about',
-            page: () => const Login()
+            name: '/login', page: () => const Login()
           ),
           GetPage(
-            name: '/contact',
-            page: () => const Register()
+            name: '/register', page: () => const Register()
           ),
           GetPage(
-            name: '/contact',
-            page: () => const ProductsPage()
+            name: '/products', page: () => const ProductsPage()
+          ),
+          GetPage(
+            name: '/favorites', page: () => const FavoriteProducts()
+          ),
+          GetPage(
+            name: '/profile', page: () => const Profile()
           ),
         ],
       )
