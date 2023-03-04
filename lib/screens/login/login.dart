@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:products/screens/products/productsPage.dart';
 import 'package:products/services/userServices.dart';
 import 'package:get/get.dart';
 
@@ -31,7 +30,7 @@ class _Login extends State<Login> {
       loginForm.currentState!.save();
       var logged = await UserApi().login(userInfo: userInfo);
       if(logged['error']==0){
-        Get.to(()=>const ProductsPage());
+        Get.toNamed('/profile');
       }else{
         if(mounted){
           ScaffoldMessenger.of(context).showSnackBar(

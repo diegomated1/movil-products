@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../services/userServices.dart';
 import '../../widgets/button.dart';
 import '../../widgets/input.dart';
-import '../products/productsPage.dart';
 import 'package:get/get.dart';
 
 class Register extends StatefulWidget{
@@ -32,7 +31,7 @@ class _Register extends State<Register> {
       loginForm.currentState!.save();
       var registered = await UserApi().register(userInfo: userInfo);
       if(registered['error']==0){
-        Get.to(()=>const ProductsPage());
+        Get.toNamed('/profile');
       }else{
         if(mounted){
           ScaffoldMessenger.of(context).showSnackBar(
