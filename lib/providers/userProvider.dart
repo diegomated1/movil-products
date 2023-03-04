@@ -11,12 +11,11 @@ class UserProvider extends ChangeNotifier {
   getUser()async{
     var data = await UserApi().auth();
     if(data!=null){
-      Get.to(()=>const ProductsPage());
+      Get.toNamed('/profile');
     }
   }
 
   UserProvider(){
-    print("???");
     getUser();
   }
 }
