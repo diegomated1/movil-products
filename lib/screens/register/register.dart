@@ -31,7 +31,7 @@ class _Register extends State<Register> {
       loginForm.currentState!.save();
       var registered = await UserApi().register(userInfo: userInfo);
       if(registered['error']==0){
-        Get.toNamed('/profile');
+        Get.toNamed('/auth');
       }else{
         if(mounted){
           ScaffoldMessenger.of(context).showSnackBar(
