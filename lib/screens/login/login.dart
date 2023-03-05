@@ -30,7 +30,7 @@ class _Login extends State<Login> {
       loginForm.currentState!.save();
       var logged = await UserApi().login(userInfo: userInfo);
       if(logged['error']==0){
-        Get.toNamed('/profile');
+        Get.toNamed('/auth');
       }else{
         if(mounted){
           ScaffoldMessenger.of(context).showSnackBar(
