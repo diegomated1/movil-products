@@ -25,6 +25,17 @@ class ProductModel {
       calification: json['calification'].toDouble(),
     );
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id_product': idProduct,
+      'name': name,
+      'description': description,
+      'id_seller': idSeller,
+      'seller_name': sellerName,
+      'calification': calification,
+    };
+  }
 }
 
 class ProductsModel {
