@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:products/models/favoritesModel.dart';
 import 'package:products/models/productModel.dart';
 import 'package:products/screens/products/productListExtended.dart';
 import 'package:products/screens/products/productListSimple.dart';
 import 'package:products/services/productServices.dart';
-import 'package:products/utils/utils.dart';
-import 'package:provider/provider.dart';
 
 class ProductsPage extends StatefulWidget{
   const ProductsPage({super.key});
@@ -16,7 +13,6 @@ class ProductsPage extends StatefulWidget{
 
 class _ProductsPage extends State<ProductsPage> {
   late Future<ProductsModel> products;
-  late Future<FavoritesModel> favorites;  
   int displayType = 0;
 
   changeDisplayType(){
@@ -30,10 +26,8 @@ class _ProductsPage extends State<ProductsPage> {
   }
 
   hangleGetProducts(){
-    print("aaaaa");
     setState(() {
       products = ProductApi().getAll();
-      favorites = ProductApi().getFavorites();
     });
   }
 
@@ -71,20 +65,16 @@ class _ProductsPage extends State<ProductsPage> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: Future.wait([products, favorites]),
+                future: products,
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
                     if(displayType==0){
                       return ProductListSimple(
-                        products: (snapshot.data![0] as ProductsModel).products,
-                        favorites: (snapshot.data![1] as FavoritesModel).favorites,
-                        refresh: hangleGetProducts,
+                        products: snapshot.data!.products,
                       );
                     }else{
                       return ProductListExtended(
-                        products: (snapshot.data![0] as ProductsModel).products,
-                        favorites: (snapshot.data![1] as FavoritesModel).favorites,
-                        refresh: hangleGetProducts,
+                        products: snapshot.data!.products,
                       );
                     }
                   }else{
