@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:products/services/favoriteServices.dart';
 import 'package:products/utils/utils.dart';
 import 'package:products/widgets/button.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ class Profile extends StatelessWidget{
   const Profile({super.key});
 
   logout()async{
+    await FavoriteProductsDB.instance.uploadSync();
+    await FavoriteProductsDB.instance.deleteAll();
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('userToken');
     Get.toNamed('/auth');
