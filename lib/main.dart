@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:products/providers/userProvider.dart';
 import 'package:products/screens/favorites/favoriteProducts.dart';
 import 'package:products/screens/login/login.dart';
 import 'package:products/screens/products/productsPage.dart';
@@ -18,36 +17,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      initialRoute: '/auth',
+      getPages: [
+        GetPage(
+          name: '/', page: () => const Auth()
         ),
-        initialRoute: '/auth',
-        getPages: [
-          GetPage(
-            name: '/', page: () => const Auth()
-          ),
-          GetPage(
-            name: '/login', page: () => const Login()
-          ),
-          GetPage(
-            name: '/register', page: () => const Register()
-          ),
-          GetPage(
-            name: '/products', page: () => const ProductsPage()
-          ),
-          GetPage(
-            name: '/favorites', page: () => const FavoriteProducts()
-          ),
-          GetPage(
-            name: '/profile', page: () => const Profile()
-          ),
-        ],
-      )
+        GetPage(
+          name: '/login', page: () => const Login()
+        ),
+        GetPage(
+          name: '/register', page: () => const Register()
+        ),
+        GetPage(
+          name: '/products', page: () => const ProductsPage()
+        ),
+        GetPage(
+          name: '/favorites', page: () => const FavoriteProducts()
+        ),
+        GetPage(
+          name: '/profile', page: () => const Profile()
+        ),
+      ],
     );
   }
 }
