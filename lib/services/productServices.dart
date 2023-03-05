@@ -31,27 +31,27 @@ class ProductApi {
     }
   }
 
-  Future<FavoritesModel> getFavorites() async {
+  Future<ProductsModel> getFavorites({int keys = 0}) async {
     try{
       final prefs = await SharedPreferences.getInstance();
       var userToken = prefs.getString('userToken');
       if(userToken==null){
-        return FavoritesModel.fromJson([]);
+        return ProductsModel.fromJson([]);
       }
       var headers = {
         "Content-type": "application/json",
         "Authorization": "Bearer $userToken"
       };
-      var response = await http.get(Uri.parse('$url/products/favorite'), headers: headers);
+      var response = await http.get(Uri.parse('$url/products/favorite?keys=$keys'), headers: headers);
       if(response.statusCode == 200){
         var body = json.decode(response.body);
-        return FavoritesModel.fromJson(body['products']);
+        return ProductsModel.fromJson(body['products']);
       } else {
-        return FavoritesModel.fromJson([]);
+        return ProductsModel.fromJson([]);
       }
     }catch(e){
       print(e.toString());
-        return FavoritesModel.fromJson([]);
+        return ProductsModel.fromJson([]);
     }
   }
 
